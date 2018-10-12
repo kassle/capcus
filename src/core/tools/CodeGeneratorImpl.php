@@ -1,5 +1,7 @@
 <?
 
+declare(strict_types=1);
+
 class CodeGeneratorImpl implements CodeGenerator {
     private const CHARLIST = 'abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     private const CHARSIZE = 61;
