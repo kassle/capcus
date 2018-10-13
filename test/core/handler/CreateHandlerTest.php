@@ -5,16 +5,18 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 class CreateHandlerTest extends TestCase {
+    private $decoder;
     private $config;
     private $codegen;
 
     private $handler;
 
     public function setup() {
+        $this->decoder = $this->createMock(RequestDecoder::class);
         $this->config = $this->createMock(Config::class);
         $this->codegen = $this->createMock(CodeGenerator::class);
 
-        $this->handler = new CreateHandler($this->config, $this->codegen);
+        $this->handler = new CreateHandler($this->decoder, $this->config, $this->codegen);
     }
 
     public function testExecuteShouldReturnResponse() {

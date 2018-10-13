@@ -13,7 +13,7 @@ class CreateRequestDecoderTest extends TestCase {
 
     public function testDecodeShouldReturnItem() : void {
         $url = 'https://www.krybrig.org/jejak.html?token=AbCdEf';
-        $body = '{ "url": "' . $url . '" }';
+        $body = $this->toJsonArray('{ "url": "' . $url . '" }');
 
         $item = $this->decoder->decode($body);
 
@@ -21,10 +21,14 @@ class CreateRequestDecoderTest extends TestCase {
     }
 
     public function testDecodeShouldReturnNullItem() : void {
-        $body = '{ "message": "unknown body" }';
+        $body = $this->toJsonArray('{ "message": "unknown body" }');
 
         $item = $this->decoder->decode($body);
 
         $this->assertEquals('', $item->getUrl());
+    }
+
+    private function toJsonArray(string $body) : array {
+        return json_decode($body, true, 2);
     }
 } 

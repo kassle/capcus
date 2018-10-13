@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class CreateRequest {
+class CreateRequest extends Request {
     private $url = '';
 
     public function setUrl(string $url) {

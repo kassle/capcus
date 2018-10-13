@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
-class CreateHandler {
+class CreateHandler extends AbstractHandler {
     private $config;
+    private $decoder;
     private $codegen;
 
-    public function __construct(Config $config, CodeGenerator $codegen) {
+    public function __construct(RequestDecoder $decoder, Config $config, CodeGenerator $codegen) {
+        parent::__construct('capcus.create', $decoder);
         $this->config = $config;
         $this->codegen = $codegen;
     }
 
-    public function execute(CreateRequest $request) : Response {
+    public function execute(Request $request) : Response {
         $item = new Item();
         $item->setSourceUrl($request->getUrl());
         $item->setCode($this->codegen->generate($this->config->getCodeLength()));
