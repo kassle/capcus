@@ -18,6 +18,7 @@ class CreateHandler extends AbstractHandler {
         $item->setSourceUrl($request->getUrl());
         $item->setCode($this->codegen->generate($this->config->getCodeLength()));
         $item->setTargetUrl($this->config->getBaseUrl() . $item->getCode());
+        $item->setOwner('anonymous');
 
         $response = new Response();
         $response->setBody($item);

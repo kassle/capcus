@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class Item {
+class Item implements JsonModel {
     private $sourceUrl = '';
     private $targetUrl = '';
     private $owner = '';
@@ -52,5 +52,9 @@ class Item {
 
     public function getCreateTime() : string {
         return $this->createTime;
+    }
+
+    public function getJson() : String {
+        return json_encode(get_object_vars($this));
     }
 }

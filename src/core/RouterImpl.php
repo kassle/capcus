@@ -14,7 +14,7 @@ class RouterImpl implements Router {
         if (isset($body[RouterImpl::FIELD_TYPE])) {
             return $this->processRequest($body);
         } else {
-            return $this->createResponse(400);
+            return StatusResponseGenerator::create(400);
         }
     }
 
@@ -26,10 +26,10 @@ class RouterImpl implements Router {
                 return $this->delegateRequestToHandler($handler, $body);
             } catch (Exception $ex) {
                 error_log($ex->getTraceAsString());
-                return $this->createResponse(500);
+                return StatusResponseGenerator::create(500);
             }
         } else {
-            return $this->createResponse(404);
+            return StatusResponseGenerator::create(404);
         }
     }
 
@@ -40,11 +40,5 @@ class RouterImpl implements Router {
         } else {
             return $this->createResponse(400);
         }
-    }
-
-    private function createResponse(int $statusCode) : Response {
-        $response = new Response();
-        $response->setStatusCode($statusCode);
-        return $response;
     }
 }

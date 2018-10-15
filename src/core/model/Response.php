@@ -14,11 +14,11 @@ class Response {
         return $this->statusCode;
     }
 
-    public function setBody($body) {
+    public function setBody(JsonModel $body) {
         $this->body = $body;
     }
 
-    public function getBody() {
+    public function getBody() : JsonModel {
         return $this->body;
     }
 }
