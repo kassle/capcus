@@ -1,11 +1,19 @@
 <?
 
 function capcus_autoloader($class) {
-    try {
-        $file = finder(__DIR__ . DIRECTORY_SEPARATOR . 'core', DIRECTORY_SEPARATOR . $class . '.php');
-        require $file;
-    } catch (Exception $ex) {
+    if (loadClass('core', $class)) {
+    } else {
         error_log('Unable to load class: ' . $class);
+    }
+}
+
+function loadClass($path, $class) : bool {
+    try {
+        $file = finder(__DIR__ . DIRECTORY_SEPARATOR . $path, DIRECTORY_SEPARATOR . $class . '.php');
+        require $file;
+        return true;
+    } catch (Exception $ex) {
+        return false;
     }
 }
 

@@ -1,5 +1,6 @@
 <?
 
 interface Storage {
-    public function insertItem(Item $item) : boolean;
+    public function execSql(string $sql) : bool;
+    public function insertItem(Item $item) : bool;
 }

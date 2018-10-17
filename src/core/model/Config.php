@@ -5,6 +5,9 @@ declare(strict_types=1);
 class Config {
     private $baseUrl;
     private $codeLength;
+    private $databaseURl;
+    private $databaseUser;
+    private $databasePassword;
 
     public function setBaseUrl(string $baseUrl) {
         $this->baseUrl = $baseUrl;
@@ -20,5 +23,29 @@ class Config {
 
     public function getCodeLength() : int {
         return $this->codeLength;
+    }
+
+    public function setDatabaseUrl(string $databaseUrl) {
+        $this->databaseUrl = $databaseUrl;
+    }
+
+    public function getDatabaseUrl() : string {
+        return $this->databaseUrl;
+    }
+
+    public function setDatabaseUser(string $databaseUser) {
+        $this->databaseUser = $databaseUser;
+    }
+
+    public function getDatabaseUser() : string {
+        return $this->databaseUser;
+    }
+
+    public function setDatabasePassword(string $databasePassword) {
+        $this->databasePassword = $databasePassword;
+    }
+
+    public function getDatabasePassword() : string {
+        return $this->databasePassword;
     }
 }

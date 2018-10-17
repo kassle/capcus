@@ -35,7 +35,7 @@ class Item implements JsonModel {
     }
 
     public function getOwner() : string {
-        return $owner;
+        return $this->owner;
     }
 
     public function setCode(string $code) {
