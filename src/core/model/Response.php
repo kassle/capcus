@@ -3,7 +3,10 @@
 declare(strict_types=1);
 
 class Response {
-    private $statusCode = 200;
+    const CODE_OK = 200;
+    const CODE_SERVICE_UNAVAILABLE = 503;
+
+    private $statusCode = Response::CODE_OK;
     private $body;
 
     public function setStatusCode(int $statusCode) {
