@@ -39,6 +39,14 @@ class AbstractHandlerTest extends TestCase {
         $this->assertTrue($this->handler->validate($request));
     }
 
+    public function testValidationShouldReturnFalseWhenTypeNotMatch() {
+        $request = $this->createMock(Request::class);
+        $request->method('getType')->willReturn('invalid.type');
+        $request->method('getId')->willReturn('request_id');
+
+        $this->assertFalse($this->handler->validate($request));
+    }
+
     public function testValidationShouldReturnFalseWhenTypeEmpty() {
         $request = $this->createMock(Request::class);
         $request->method('getType')->willReturn('');

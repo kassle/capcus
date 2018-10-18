@@ -3,16 +3,28 @@
 declare(strict_types=1);
 
 class CreateHandler extends AbstractHandler {
+    const TYPE = 'capcus.create';
+
+    private const SUPPORTED_URL_REGEX = '/^(http|https):\\/\\//';
+
     private $config;
     private $decoder;
     private $codegen;
     private $storage;
 
     public function __construct(RequestDecoder $decoder, Config $config, CodeGenerator $codegen, Storage $storage) {
-        parent::__construct('capcus.create', $decoder);
+        parent::__construct(CreateHandler::TYPE, $decoder);
         $this->config = $config;
         $this->codegen = $codegen;
         $this->storage = $storage;
+    }
+
+    public function validate(Request $request) : bool {
+        return parent::validate($request)
+            && !empty($request->getUrl())
+            && (strlen($request->getUrl()) <= $this->config->getMaxUrlLength())
+            && preg_match(CreateHandler::SUPPORTED_URL_REGEX, $request->getUrl())
+            && filter_var($request->getUrl(), FILTER_VALIDATE_URL);
     }
 
     public function execute(Request $request) : Response {

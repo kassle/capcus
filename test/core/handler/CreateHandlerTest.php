@@ -77,4 +77,43 @@ class CreateHandlerTest extends TestCase {
     private function createStorageException(int $code) : StorageException {
         return new StorageException($code, new Exception("Stub", $code));
     }
+
+    public function testValidateShouldReturnTrue() {
+        $this->config->method('getMaxUrlLength')->willReturn(128);
+        $url = 'https://very.long.com/path/so/deep/in/the/bottom/of/the/sea/index.html';
+        
+        $request = $this->createRequest($url);
+        $this->assertTrue($this->handler->validate($request));
+    }
+
+    public function testValidateShouldReturnFalseWhenUrlIsEmpty() {
+        $this->config->method('getMaxUrlLength')->willReturn(128);
+        $request = $this->createRequest('');
+        $this->assertFalse($this->handler->validate($request));
+    }
+
+    public function testValidateShouldReturnFalseWhenUrlContainNonHttp() {
+        $this->config->method('getMaxUrlLength')->willReturn(128);
+        $url = 'tcp://unsupported.procotol.com';
+        
+        $request = $this->createRequest($url);
+        $this->assertFalse($this->handler->validate($request));
+    }
+
+    public function testValidateShouldReturnFalseWhenUrlTooLong() {
+        $this->config->method('getMaxUrlLength')->willReturn(10);
+        $url = 'http://not.really.long.tho';
+        
+        $request = $this->createRequest($url);
+        $this->assertFalse($this->handler->validate($request));
+    }
+
+    private function createRequest(string $url) {
+        $request = $this->createMock(CreateRequest::class);
+        $request->method('getId')->willReturn('abc');
+        $request->method('getType')->willReturn(CreateHandler::TYPE);
+        $request->method('getUrl')->willReturn($url);
+
+        return $request;
+    }
 }

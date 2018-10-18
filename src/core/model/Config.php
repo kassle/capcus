@@ -8,6 +8,7 @@ class Config {
     private $databaseURl;
     private $databaseUser;
     private $databasePassword;
+    private $maxUrlLength;
 
     public function setBaseUrl(string $baseUrl) {
         $this->baseUrl = $baseUrl;
@@ -47,5 +48,13 @@ class Config {
 
     public function getDatabasePassword() : string {
         return $this->databasePassword;
+    }
+
+    public function setMaxUrlLength(int $maxUrlLength) {
+        $this->maxUrlLength = $maxUrlLength;
+    }
+
+    public function getMaxUrlLength() : int {
+        return $this->maxUrlLength;
     }
 }

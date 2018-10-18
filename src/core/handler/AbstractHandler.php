@@ -20,6 +20,7 @@ abstract class AbstractHandler implements Handler {
     }
 
     public function validate(Request $request) : bool {
-        return !empty($request->getType()) && !empty($request->getId());
+        return !empty($request->getType()) && !empty($request->getId())
+            && (strcmp($this->type, $request->getType()) === 0);
     }
 }
