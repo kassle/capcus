@@ -9,6 +9,7 @@ class Config {
     private $databaseUser;
     private $databasePassword;
     private $maxUrlLength;
+    private $maxAge;
 
     public function setBaseUrl(string $baseUrl) {
         $this->baseUrl = $baseUrl;
@@ -56,5 +57,13 @@ class Config {
 
     public function getMaxUrlLength() : int {
         return $this->maxUrlLength;
+    }
+
+    public function setMaxAge(int $maxAge) {
+        $this->maxAge = $maxAge;
+    }
+
+    public function getMaxAge() : int {
+        return $his->maxAge;
     }
 }

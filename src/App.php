@@ -22,7 +22,7 @@ class App {
         }
     }
 
-    private function prepareBody() {
+    private function prepareBody() : array {
         $method = strtoupper($_SERVER['REQUEST_METHOD']);
 
         if ($method === App::METHOD_POST) {
@@ -31,7 +31,7 @@ class App {
             if (sizeof($_GET) === 0) {
                 throw new Exception("Redirect", 302);
             } else {
-                var_dump($_GET);
+                return $_GET;
             }
         } else {
             throw new Exception("Bad Request", 400);
@@ -63,7 +63,7 @@ class App {
             header('Content-Type: application/json');
             echo $response->getBody()->getJson();
         } else if ($statusCode === 302) {
-            header('Location: ' . $this->config->getBaseUrl() . '/index.html', true, $statusCode);
+            header('Location: ' . $this->config->getBaseUrl() . 'index.html', true, $statusCode);
         } else {
             http_response_code($statusCode);
         }

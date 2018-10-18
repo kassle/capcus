@@ -10,6 +10,8 @@ class CreateRequestDecoderImpl extends AbstractRequestDecoder {
 
         if (isset($body[CreateRequestDecoderImpl::FIELD_SOURCE_URL])) {
             $request->setUrl($body[CreateRequestDecoderImpl::FIELD_SOURCE_URL]);
+        } else {
+            $request->setUrl('');
         }
 
         return $request;

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 class CreateRequest extends Request {
-    private $url = '';
+    private $url;
 
     public function setUrl(string $url) {
         $this->url = $url;
