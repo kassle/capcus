@@ -14,7 +14,7 @@ class StorageImpl implements Storage {
             $this->db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
             $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         } catch (PDOException $ex) {
-            echo "\ncode: " . $ex->getCode() . '; message: ' . $ex->getMessage() . "\n";
+            error_log("code: " . $ex->getCode() . '; message: ' . $ex->getMessage());
         }
     }
 
@@ -23,7 +23,7 @@ class StorageImpl implements Storage {
             $this->db->exec($sql);
             return true;
         } catch (Exception $ex) {
-            echo "\ncode: " . $ex->getCode() . '; message: ' . $ex->getMessage() . "\n";
+            error_log("code: " . $ex->getCode() . '; message: ' . $ex->getMessage());
             return false;
         }
     }
@@ -36,14 +36,14 @@ class StorageImpl implements Storage {
                 $item->getCode(),
                 $item->getOwner(),
                 $item->getCreateTime(),
-                $item->getSourceUrl()
+                base64_encode($item->getSourceUrl())
             ]);
             return true;
         } catch (PDOException $ex) {
             if (strcmp("23000", $ex->getCode()) === 0) {
                 throw new StorageException(StorageException::ERR_DUPLICATE_KEY, $ex);
             } else {
-                echo "\ncode: [" . $ex->getCode() . ']; message: ' . $ex->getMessage() . "\n";
+                error_log("code: " . $ex->getCode() . '; message: ' . $ex->getMessage());
                 return false;
             }
         }
@@ -67,7 +67,7 @@ class StorageImpl implements Storage {
             $item->setCode($data['code']);
             $item->setOwner($data['owner']);
             $item->setCreateTime($data['createTime']);
-            $item->setSourceUrl($data['source']);
+            $item->setSourceUrl(base64_decode($data['source']));
             $item->setTargetUrl($this->config->getBaseUrl() . $item->getCode());
             
             return $item;
