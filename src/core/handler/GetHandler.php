@@ -31,6 +31,7 @@ class GetHandler extends AbstractHandler {
             $interval = (int) ($createTime->diff(new DateTime()))->format('%a');
 
             if ($this->config->getMaxAge() >= $interval) {
+                $response->setStatusCode(Response::CODE_OK);
                 $response->setBody($item);
             } else {
                 $response->setStatusCode(Response::CODE_GONE);

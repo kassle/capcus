@@ -52,11 +52,32 @@ class StorageImplTest extends TestCase {
         $this->assertNull($result);
     }
 
-    private function createItem(string $code) {
+    public function testGetItemByUrlShouldReturnItem() {
+        $item = $this->createItem('00000004', 'https://previous.long.url/summon/again.html');
+        $this->assertTrue($this->storage->insertItem($item));
+
+        $result = $this->storage->getItemByUrl($item->getSourceUrl());
+        $this->assertEquals($item->getCode(), $result->getCode());
+        $this->assertEquals($item->getOwner(), $result->getOwner());
+        $this->assertEquals($item->getCreateTime(), $result->getCreateTime());
+        $this->assertEquals($item->getSourceUrl(), $result->getSourceUrl());
+        $this->assertEquals($this->config->getBaseUrl() . $item->getCode(), $result->getTargetUrl());
+    }
+
+    public function testGetItemByUrlShouldReturnNullWhenNotFound() {
+        $url = 'http://unknown.found.you/not/exist.html';
+        $result = $this->storage->getItem($url);
+        $this->assertNull($result);
+    }
+
+    private function createItem(
+        string $code,
+        string $url = 'https://www.long.url/very/far/far/away/index.html') {
+
         $item = new Item();
         $item->setCode($code);
         $item->setOwner('anonymous');
-        $item->setSourceUrl('https://www.long.url/very/far/far/away/index.html');
+        $item->setSourceUrl($url);
 
         return $item;
     }

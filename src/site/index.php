@@ -11,7 +11,7 @@ $config->setBaseUrl('http://192.168.56.2/');
 $config->setDatabaseUrl('sqlite::memory:');
 $config->setDatabaseUser('');
 $config->setDatabasePassword('');
-$config->getMaxUrlLength(2000);
-$config->getMaxAge(14);
+$config->setMaxUrlLength(2000);
+$config->setMaxAge(14);
 
 (new App($config))->onRequest();

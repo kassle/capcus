@@ -32,6 +32,18 @@ class CreateHandler extends AbstractHandler {
         $item->setSourceUrl($request->getUrl());
         $item->setOwner('anonymous');
 
+        $previous = $this->storage->getItemByUrl($item->getSourceUrl());
+        if (is_null($previous)) {
+            return $this->createNewEntry($item);
+        } else {
+            $response = new Response();
+            $response->setStatusCode(Response::CODE_OK);
+            $response->setBody($previous);
+            return $response;
+        }
+    }
+
+    private function createNewEntry(Item $item) : Response {
         $response = new Response();
         $retry = 3;
 

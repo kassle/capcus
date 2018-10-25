@@ -40,6 +40,7 @@ class CreateHandlerTest extends TestCase {
 
         $this->codegen->method('generate')->with($stubCodeLength)->willReturn(CreateHandlerTest::stubCode1);
 
+        $this->storage->method('getItemByUrl')->with($request->getUrl())->willReturn(NULL);
         $this->storage->expects($this->once())
             ->method('insertItem')
             ->with($this->callback(function($item) {
@@ -56,6 +57,33 @@ class CreateHandlerTest extends TestCase {
         $this->assertEquals($request->getUrl(), $body->getSourceUrl());
         $this->assertEquals(CreateHandlerTest::stubCode1, $body->getCode());
         $this->assertEquals($stubBaseUrl . CreateHandlerTest::stubCode1, $body->getTargetUrl());
+    }
+
+    public function testExecuteShouldReturnPreviousItemWhenUrlAlreadyExist() {
+        $request = new CreateRequest();
+        $request->setUrl(CreateHandlerTest::sourceUrl);
+
+        $stubCodeLength = 4;
+        $stubBaseUrl = 'https://capc.us/';
+        $this->config->method('getCodeLength')->willReturn($stubCodeLength);
+        $this->config->method('getBaseUrl')->willReturn($stubBaseUrl);
+
+        $item = new Item();
+        $item->setCode("Previous");
+        $item->setSourceUrl($request->getUrl());
+        $item->setTargetUrl($stubBaseUrl . $item->getCode());
+
+        $this->storage->expects($this->once())
+            ->method('getItemByUrl')
+            ->with($request->getUrl())
+            ->willReturn($item);
+
+        $response = $this->handler->execute($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $body = $response->getBody();
+        $this->assertSame($item, $body);
     }
 
     public function testExecuteAndFailInsertStorageShouldReturnResponseFail() {

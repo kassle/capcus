@@ -7,8 +7,9 @@ class Response {
     const CODE_NOT_FOUND = 404;
     const CODE_GONE = 410;
     const CODE_SERVICE_UNAVAILABLE = 503;
+    const CODE_SERVICE_TIMEOUT = 504;
 
-    private $statusCode = Response::CODE_OK;
+    private $statusCode = Response::CODE_SERVICE_TIMEOUT;
     private $body;
 
     public function setStatusCode(int $statusCode) {

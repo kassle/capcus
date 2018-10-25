@@ -61,6 +61,18 @@ class StorageImpl implements Storage {
         }
     }
 
+    public function getItemByUrl(string $url) : ?Item {
+        $query = "SELECT code, owner, createTime, source FROM items WHERE source = ? LIMIT 1";
+        $statement = $this->db->prepare($query);
+        if ($statement->execute([ base64_encode($url) ])) {
+            $data = $statement->fetch(PDO::FETCH_ASSOC);
+            
+            return $this->convertToItem($data);
+        } else {
+            return NULL;
+        }
+    }
+
     private function convertToItem($data) {
         if ($data) {
             $item = new Item();
