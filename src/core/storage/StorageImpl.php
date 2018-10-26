@@ -29,7 +29,7 @@ class StorageImpl implements Storage {
     }
 
     public function insertItem(Item $item) : bool {
-        $query = 'insert into items ("code", "owner", "createTime", "source") values ( ?, ?, ?, ?);';
+        $query = 'insert into items ("code", "owner", "create_time", "source") values ( ?, ?, ?, ?);';
 
         try {
             $this->db->prepare($query)->execute([
@@ -50,7 +50,7 @@ class StorageImpl implements Storage {
     }
 
     public function getItem(string $code) : ?Item {
-        $query = "SELECT code, owner, createTime, source FROM items WHERE code = ? LIMIT 1";
+        $query = "SELECT code, owner, create_time, source FROM items WHERE code = ? LIMIT 1";
         $statement = $this->db->prepare($query);
         if ($statement->execute([ $code ])) {
             $data = $statement->fetch(PDO::FETCH_ASSOC);
@@ -62,7 +62,7 @@ class StorageImpl implements Storage {
     }
 
     public function getItemByUrl(string $url) : ?Item {
-        $query = "SELECT code, owner, createTime, source FROM items WHERE source = ? LIMIT 1";
+        $query = "SELECT code, owner, create_time, source FROM items WHERE source = ? LIMIT 1";
         $statement = $this->db->prepare($query);
         if ($statement->execute([ base64_encode($url) ])) {
             $data = $statement->fetch(PDO::FETCH_ASSOC);
@@ -78,7 +78,7 @@ class StorageImpl implements Storage {
             $item = new Item();
             $item->setCode($data['code']);
             $item->setOwner($data['owner']);
-            $item->setCreateTime($data['createTime']);
+            $item->setCreateTime($data['create_time']);
             $item->setSourceUrl(base64_decode($data['source']));
             $item->setTargetUrl($this->config->getBaseUrl() . $item->getCode());
             

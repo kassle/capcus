@@ -16,7 +16,7 @@ class StorageImplTest extends TestCase {
         $this->config->setDatabasePassword('');
 
         $this->storage = new StorageImpl($this->config);
-        $this->storage->execSql("CREATE TABLE items (code VARCHAR[128] PRIMARY KEY, owner VARCHAR[256], createTime VARCHAR[25], source VARCHAR[2048]);");
+        $this->storage->execSql("CREATE TABLE items (code VARCHAR[128] PRIMARY KEY, owner VARCHAR[256], create_time VARCHAR[25], source VARCHAR[2048]);");
     }
 
     public function testInsertItemShouldTrue() {
