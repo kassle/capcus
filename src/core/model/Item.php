@@ -11,7 +11,7 @@ class Item implements JsonModel {
 
     public function __construct() {
         $timestamp = new DateTime();
-        $this->createTime = $timestamp->format(DateTime::ATOM);
+        $this->createTime = $timestamp->format('Y-m-d H:i:s');
     }
 
     public function setSourceUrl(string $sourceUrl) {

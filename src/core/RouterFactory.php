@@ -11,7 +11,7 @@ class RouterFactory {
                 $config,
                 new CodeGeneratorImpl(),
                 $storage));
-        $router->addHandler(new GetHandler($config, new GetRequestDecoder(), $config));
+        $router->addHandler(new GetHandler($config, new GetRequestDecoder(), $storage));
 
         return $router;
     }

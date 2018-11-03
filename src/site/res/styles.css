@@ -1,0 +1,133 @@
+html, body {
+    color: #ffffff;
+    margin: 0px;
+    padding: 0px;
+}
+
+#main {
+    background-image: radial-gradient(circle, #000088, #000044);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#main #header {
+    background-image: url("/res/capcus_logo.png");
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    border: solid 1px transparent;
+}
+
+#main #title {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 5em;
+    margin: 0em;
+    padding-left: 1.25em;
+    text-align: center;
+    text-shadow: 4px 4px 2px #000000;
+}
+
+#main #slogan {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 1em;
+    text-align: center;
+    margin: 0em;
+    margin-top: -2em;
+    margin-bottom: 2em;
+    margin-left: 10em;
+}
+
+#main #input {
+    text-align: center;
+}
+
+#main #output {
+    visibility: hidden;
+    border: dashed #ffffff;
+    margin: 0em;
+    margin-top: 2em;
+    padding: 1em;
+}
+
+#main #output #url {
+    margin: 0em;
+    margin-bottom: 1em;
+    text-align: center;
+    font-size: xx-large;
+}
+
+#main #output #info {
+    margin: 0em;
+    text-align: left;
+    font-size: small;
+    font-style: italic;
+}
+
+#main #output #info ul {
+    margin: 0em;
+    padding: 0em;
+    padding-left: 1em;
+}
+
+#navigation {
+    background-image: url("/res/background_stripe.png");
+    text-align: right;
+}
+
+#navigation ul {
+    margin: 0px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+
+#navigation li {
+    display: inline;
+    padding-left: 10px;
+}
+
+#navigation a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+#plan {
+    background-image: radial-gradient(circle, #880000, #440000);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#plan table {
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+
+#plan table th {
+    font-size: large;
+    font-weight: bold;
+    padding-top: .5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: .5em;
+    text-align: left;
+}
+
+#plan table td {
+    text-align: left;
+    padding-top: .5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: .5em;
+    border: solid 2px black;
+}
+
+#signin {
+    background-color: #008800;
+}
+
+#about {
+    background-color: #000088;
+}

@@ -10,7 +10,7 @@ class StorageImpl implements Storage {
     public function __construct(Config $config) {
         $this->config = $config;
         try {
-            $this->db = new PDO($config->getDatabaseUrl());
+            $this->db = new PDO($config->getDatabaseUrl(), $config->getDatabaseUser(), $config->getDatabasePassword());
             $this->db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
             $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         } catch (PDOException $ex) {
@@ -29,7 +29,7 @@ class StorageImpl implements Storage {
     }
 
     public function insertItem(Item $item) : bool {
-        $query = 'insert into items ("code", "owner", "create_time", "source") values ( ?, ?, ?, ?);';
+        $query = 'INSERT INTO items (code, owner, create_time, source) VALUES ( ?, ?, ?, ?);';
 
         try {
             $this->db->prepare($query)->execute([

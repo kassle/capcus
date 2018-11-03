@@ -1,1 +1,96 @@
-Hello
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
+        <link href="/res/styles.css" rel="stylesheet">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="/res/jquery.sticky.js"></script>
+        <script type="text/javascript" src="/res/script.js"></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CapCus: Instant URL Shortener</title>
+    </head>
+    <body>
+        <div id="main">
+            <div>
+                <div id="header">
+                    <div id="title">CapCus</div>
+                    <div id="slogan">Instant URL Shortener</div>
+                </div>
+                <div id="input">
+                    <form id="formUrl" onsubmit="return submitUrl()" >
+                        <input type="url" id='inputUrl' maxlength="2000" name="sourceUrl" placeholder="Paste Long URL Here" required>
+                        <input type="submit" id='btSubmit' value="Cus!">
+                    </form>
+                </div>
+                <div id="output">
+                    <div id="url" onclick="copyUrl()">&nbsp;</div>
+                    <div id="info">
+                        <ul>
+                            <li>Click the URL above to select and copy</li>
+                            <li>URL valid for 14 days</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="navigation">
+            <ul>
+                <li><a href="#" onclick="jumpTo('#main');">HOME</a></li>
+                <li><a href="#" onclick="jumpTo('#signin');">SIGN-IN</a></li>
+                <li><a href="#" onclick="jumpTo('#plan');">PLAN</a></li>
+                <li><a href="#" onclick="jumpTo('#about');">ABOUT</a></li>
+            </ul>
+        </div>
+        <div id="signin">Sign In</div>
+        <div id="plan">
+            <table>
+                <tr>
+                    <th></th>
+                    <th>INSTANT</th>
+                    <th>REGISTERED</th>
+                    <th>PREMIUM</th>
+                </tr>
+                <tr>
+                    <th>Expiry</th>
+                    <td>14 Days</td>
+                    <td>14 Days<br>+ 7 Days after last access</td>
+                    <td>Never</td>
+                </tr>
+                <tr>
+                    <th>Ads</th>
+                    <td>Everytime</td>
+                    <td>Every 5th access</td>
+                    <td>None</td>
+                </tr>
+                <tr>
+                    <th>Custom URL</th>
+                    <td>No</td>
+                    <td>No</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th>Statistic</th>
+                    <td>No</td>
+                    <td>No</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th>Registration</th>
+                    <td>No</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>FREE</td>
+                    <td>COMING SOON</td>
+                    <td>COMING SOON</td>
+                </tr>
+            </table>
+        </div>
+        <div id="about">About</div>
+    </body>
+</html>
