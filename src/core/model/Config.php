@@ -64,6 +64,6 @@ class Config {
     }
 
     public function getMaxAge() : int {
-        return $his->maxAge;
+        return $this->maxAge;
     }
 }
