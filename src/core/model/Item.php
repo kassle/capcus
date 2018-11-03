@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 class Item implements JsonModel {
+    const TIMESTAMP_FORMAT = 'Y-m-d H:i:s';
+
     private $sourceUrl = '';
     private $targetUrl = '';
     private $owner = '';
@@ -11,7 +13,7 @@ class Item implements JsonModel {
 
     public function __construct() {
         $timestamp = new DateTime();
-        $this->createTime = $timestamp->format('Y-m-d H:i:s');
+        $this->createTime = $timestamp->format(Item::TIMESTAMP_FORMAT);
     }
 
     public function setSourceUrl(string $sourceUrl) {

@@ -58,10 +58,13 @@ class App {
     private function postResponse(Response $response) {
         $statusCode = $response->getStatusCode();
 
-        if ($statusCode === 200) {
+        if ($statusCode === Response::CODE_OK) {
             http_response_code($statusCode);
             header('Content-Type: application/json');
             echo $response->getBody()->getJson();
+        } else if ($statusCode == Response::CODE_REDIRECT) {
+            error_log("redirect to " . $response->getBody()->getSourceUrl());
+            header('Location: ' . $response->getBody()->getSourceUrl(), true, $statusCode);
         } else if ($statusCode === 302) {
             header('Location: ' . $this->config->getBaseUrl() . 'index.html', true, $statusCode);
         } else {

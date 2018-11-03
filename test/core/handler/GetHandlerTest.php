@@ -52,12 +52,12 @@ class GetHandlerTest extends TestCase {
         $request = $this->createRequest($code);
 
         $item = $this->createMock(Item::class);
-        $item->method('getCreateTime')->willReturn((new DateTime())->format(DateTime::ATOM));
+        $item->method('getCreateTime')->willReturn((new DateTime())->format(Item::TIMESTAMP_FORMAT));
         $this->storage->method('getItem')->with($code)->willReturn($item);
 
         $result = $this->handler->execute($request);
 
-        $this->assertEquals(Response::CODE_OK, $result->getStatusCode());
+        $this->assertEquals(Response::CODE_REDIRECT, $result->getStatusCode());
         $this->assertSame($item, $result->getBody());
     }
 
@@ -78,7 +78,7 @@ class GetHandlerTest extends TestCase {
 
         $dt = new DateTime();
         $dt->sub(new DateInterval('P15D'));
-        $createTime = $dt->format(DateTime::ATOM);
+        $createTime = $dt->format(Item::TIMESTAMP_FORMAT);
         $item = $this->createMock(Item::class);
         $item->method('getCreateTime')->willReturn($createTime);
 

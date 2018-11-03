@@ -27,11 +27,11 @@ class GetHandler extends AbstractHandler {
 
         $item = $this->storage->getItem($request->getCode());
         if (!is_null($item)) {
-            $createTime = DateTime::createFromFormat(DateTime::ATOM, $item->getCreateTime());
+            $createTime = DateTime::createFromFormat(Item::TIMESTAMP_FORMAT, $item->getCreateTime());
             $interval = (int) ($createTime->diff(new DateTime()))->format('%a');
 
             if ($this->config->getMaxAge() >= $interval) {
-                $response->setStatusCode(Response::CODE_OK);
+                $response->setStatusCode(Response::CODE_REDIRECT);
                 $response->setBody($item);
             } else {
                 $response->setStatusCode(Response::CODE_GONE);
