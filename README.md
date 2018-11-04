@@ -33,3 +33,9 @@ src
 
         root /home/kassle/capcus/src/site;
 ```
+
+#### Apache HTTPD
+```
+RewriteEngine On
+RewriteRule ^([a-zA-Z0-9]{8})$ /index.php?type=capcus.get&id=1&code=$1 [QSA,L]
+```
