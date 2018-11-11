@@ -18,5 +18,6 @@ copy .\src\site\favicon.ico .\output\site\
 copy .\src\site\*.php .\output\site\
 copy .\src\*.php .\output\
 xcopy /s .\src\core .\output\core\
+xcopy /s /y .\src\lib .\output\lib\
 
 echo Done

@@ -33,3 +33,5 @@ function finder(string $path, string $lookup) : string {
 }
 
 spl_autoload_register('capcus_autoloader');
+
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'google-api' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';

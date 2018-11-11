@@ -16,7 +16,14 @@ class StorageImplTest extends TestCase {
         $this->config->setDatabasePassword('');
 
         $this->storage = new StorageImpl($this->config);
-        $this->storage->execSql("CREATE TABLE items (code VARCHAR[128] PRIMARY KEY, owner VARCHAR[256], create_time VARCHAR[25], source VARCHAR[2048]);");
+        $this->storage->execSql(
+            "CREATE TABLE items (
+                code VARCHAR[128] PRIMARY KEY,
+                owner VARCHAR[256],
+                create_time VARCHAR[25],
+                access_time VARCHAR[25],
+                access_count INTEGER,
+                source VARCHAR[2048]);");
     }
 
     public function testInsertItemShouldTrue() {
@@ -56,7 +63,7 @@ class StorageImplTest extends TestCase {
         $item = $this->createItem('00000004', 'https://previous.long.url/summon/again.html');
         $this->assertTrue($this->storage->insertItem($item));
 
-        $result = $this->storage->getItemByUrl($item->getSourceUrl());
+        $result = $this->storage->getItemByUrl($item->getOwner(), $item->getSourceUrl());
         $this->assertEquals($item->getCode(), $result->getCode());
         $this->assertEquals($item->getOwner(), $result->getOwner());
         $this->assertEquals($item->getCreateTime(), $result->getCreateTime());
@@ -70,13 +77,38 @@ class StorageImplTest extends TestCase {
         $this->assertNull($result);
     }
 
+    public function testGetItemShouldUpdateAccessTimeAndReturnItem() {
+        $item = $this->createItem('00000005');
+
+        $oldtime = new DateTime();
+        $oldtime->sub(new DateInterval('P1D'));
+
+        $item->setCreateTime($oldtime->format(Item::TIMESTAMP_FORMAT));
+        $this->assertTrue($this->storage->insertItem($item));
+
+        $result = $this->storage->getItem($item->getCode());
+        $this->assertEquals((new DateTime())->format(Item::TIMESTAMP_FORMAT), $result->getAccessTime());
+    }
+
+    public function testGetItemShouldUpdateAccessCountAndReturnItem() {
+        $item = $this->createItem('00000006');
+
+        $this->assertTrue($this->storage->insertItem($item));
+
+        $result = $this->storage->getItem($item->getCode());
+        $this->assertEquals(1, $result->getAccessCount());
+
+        $result = $this->storage->getItem($item->getCode());
+        $this->assertEquals(2, $result->getAccessCount());
+    }
+
     private function createItem(
         string $code,
         string $url = 'https://www.long.url/very/far/far/away/index.html') {
 
         $item = new Item();
         $item->setCode($code);
-        $item->setOwner('anonymous');
+        $item->setOwner(CreateRequestDecoderImpl::DEFAULT_OWNER);
         $item->setSourceUrl($url);
 
         return $item;

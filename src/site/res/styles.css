@@ -93,18 +93,59 @@ html, body {
     padding-left: 1em;
 }
 
-#signin {
+#account {
     background-image: radial-gradient(circle, #880000, #440000);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+}
+
+#account-dummy {
+    height: 32px;
+}
+
+#account-header {
     font-family: 'Gloria Hallelujah', cursive;
+    margin-left: 0.5em;
     font-size: xx-large;
+    text-align: left;
+    text-shadow: 4px 4px 2px #000000;
+}
+
+#account-content {
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-bottom: 1em;
+}
+
+#account-content #tabs-token {
+    word-wrap: break-word;
+}
+
+#account-content .tabs-panel {
+    overflow: scroll;
+}
+
+#account-footer {
+    padding: 0.5em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: right;
+    background-image: url("/res/background_stripe.png");
     text-align: center;
     text-shadow: 4px 4px 2px #000000;
 }
 
+#google-signin {
+    visibility: visible;
+}
+
+#account-info {
+    padding-right: 1em;
+    padding-left: 1em;
+}
+
+#account-logout img {
+    cursor: pointer;
+}
 
 #plan {
     background-image: radial-gradient(circle, #000088, #000044);

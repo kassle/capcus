@@ -10,6 +10,7 @@ class Config {
     private $databasePassword;
     private $maxUrlLength;
     private $maxAge;
+    private $googleClientId;
 
     public function setBaseUrl(string $baseUrl) {
         $this->baseUrl = $baseUrl;
@@ -65,5 +66,13 @@ class Config {
 
     public function getMaxAge() : int {
         return $this->maxAge;
+    }
+
+    public function setGoogleClientId(string $googleClientId) {
+        $this->googleClientId = $googleClientId;
+    }
+
+    public function getGoogleClientId() : string {
+        return $this->googleClientId;
     }
 }

@@ -10,10 +10,14 @@ class Item implements JsonModel {
     private $owner = '';
     private $code = '';
     private $createTime;
+    private $accessTime;
+    private $accessCount;
+    private $expireTime;
 
     public function __construct() {
         $timestamp = new DateTime();
         $this->createTime = $timestamp->format(Item::TIMESTAMP_FORMAT);
+        $this->accessTime = $this->createTime;
     }
 
     public function setSourceUrl(string $sourceUrl) {
@@ -56,7 +60,36 @@ class Item implements JsonModel {
         return $this->createTime;
     }
 
+    public function setAccessTime(string $timestamp) {
+        $this->accessTime = $timestamp;
+    }
+
+    public function getAccessTime() : string {
+        return $this->accessTime;
+    }
+
+    public function setAccessCount(int $accessCount) {
+        $this->accessCount = $accessCount;
+    }
+
+    public function getAccessCount() : int {
+        return $this->accessCount;
+    }
+
+    public function setExpireTime(string $expireTime) {
+        $this->expireTime = $expireTime;
+    }
+
+    public function getExpireTime() : string {
+        return $this->expireTime;
+    }
+
     public function getJson() : String {
-        return json_encode(get_object_vars($this));
+        return json_encode([
+            'source_url' => $this->sourceUrl,
+            'target_url' => $this->targetUrl,
+            'create_time' => $this->createTime,
+            'expire_time' => $this->expireTime
+        ]);
     }
 }

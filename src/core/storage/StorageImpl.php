@@ -29,13 +29,15 @@ class StorageImpl implements Storage {
     }
 
     public function insertItem(Item $item) : bool {
-        $query = 'INSERT INTO items (code, owner, create_time, source) VALUES ( ?, ?, ?, ?);';
+        $query = 'INSERT INTO items (code, owner, create_time, access_time, access_count, source) VALUES ( ?, ?, ?, ?, ?, ?);';
 
         try {
             $this->db->prepare($query)->execute([
                 $item->getCode(),
                 $item->getOwner(),
                 $item->getCreateTime(),
+                $item->getAccessTime(),
+                0,
                 base64_encode($item->getSourceUrl())
             ]);
             return true;
@@ -50,7 +52,9 @@ class StorageImpl implements Storage {
     }
 
     public function getItem(string $code) : ?Item {
-        $query = "SELECT code, owner, create_time, source FROM items WHERE code = ? LIMIT 1";
+        $this->updateItemAccess($code);
+
+        $query = "SELECT code, owner, create_time, access_time, access_count, source FROM items WHERE code = ? LIMIT 1";
         $statement = $this->db->prepare($query);
         if ($statement->execute([ $code ])) {
             $data = $statement->fetch(PDO::FETCH_ASSOC);
@@ -61,10 +65,16 @@ class StorageImpl implements Storage {
         }
     }
 
-    public function getItemByUrl(string $url) : ?Item {
-        $query = "SELECT code, owner, create_time, source FROM items WHERE source = ? LIMIT 1";
+    private function updateItemAccess(string $code) {
+        $query = "UPDATE items SET access_time = ?, access_count = access_count + 1 WHERE code = ?";
         $statement = $this->db->prepare($query);
-        if ($statement->execute([ base64_encode($url) ])) {
+        $statement->execute([(new DateTime())->format(Item::TIMESTAMP_FORMAT), $code]);
+    }
+
+    public function getItemByUrl(string $owner, string $url) : ?Item {
+        $query = "SELECT code, owner, create_time, access_time, access_count, source FROM items WHERE owner = ? AND source = ? LIMIT 1";
+        $statement = $this->db->prepare($query);
+        if ($statement->execute([ $owner, base64_encode($url) ])) {
             $data = $statement->fetch(PDO::FETCH_ASSOC);
             
             return $this->convertToItem($data);
@@ -79,6 +89,8 @@ class StorageImpl implements Storage {
             $item->setCode($data['code']);
             $item->setOwner($data['owner']);
             $item->setCreateTime($data['create_time']);
+            $item->setAccessTime($data['access_time']);
+            $item->setAccessCount((int) $data['access_count']);
             $item->setSourceUrl(base64_decode($data['source']));
             $item->setTargetUrl($this->config->getBaseUrl() . $item->getCode());
             

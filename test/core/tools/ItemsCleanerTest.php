@@ -20,13 +20,19 @@ class ItemsCleanerTest extends TestCase {
         $timestamp = '2018-10-30 13:28:45';
         $now = new DateTime($timestamp);
         $expire = (new DateTime($timestamp))->sub(new DateInterval('P' . $this->config->getMaxAge() . 'D'));
-        $expect = 'DELETE FROM items WHERE create_time <= \'' . $expire->format('Y-m-d H:i:s') . '\';';
+        $expectAnonymous = 'DELETE FROM items WHERE owner = \'anonymous\' AND create_time < \'' . $expire->format('Y-m-d H:i:s') . '\';';
+        $expectRegistered = 'DELETE FROM items WHERE owner != \'anonymous\' AND access_time < \'' . $expire->format('Y-m-d H:i:s') . '\';';
 
-        $this->storage->expects($this->once())
+        $this->storage->expects($this->at(0))
             ->method('execSql')
-            ->with($expect)
+            ->with($expectAnonymous)
             ->willReturn(true);
 
+        $this->storage->expects($this->at(1))
+            ->method('execSql')
+            ->with($expectRegistered)
+            ->willReturn(true);
+        
         $this->cleaner->execute($now);
     }
 }
