@@ -112,11 +112,11 @@ function Capcus() {
     }
 
     function updateInformation(response) {
-        $('#url').html(response.targetUrl);
+        $('#url').html(response.target_url);
         $('#info').html('<ul>'
             + '<li>Click the URL above to select and copy</li>'
-            + '<li>Created at ' + response.create-time + '</li>'
-            + '<li>Expired at ' + response.expire-time + '</li>'
+            + '<li>Created at ' + response.create_time + '</li>'
+            + '<li>Expired at ' + response.expire_time + '</li>'
             + '</ul>');
         $('#output').css('visibility', 'visible');
     }
